@@ -3,16 +3,20 @@ package com.android.example.animecompanion.ui;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.android.example.animecompanion.R;
 import com.android.example.animecompanion.data.models.Anime;
 import com.android.example.animecompanion.databinding.ActivityMainBinding;
 import com.android.example.animecompanion.ui.adapters.AnimeListAdapter;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -33,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
     private AnimeListAdapter mTopListAdapter;
     private SearchView searchView;
 
+    @BindingAdapter("image")
+    public static void setThumbnail(ImageView view, String thumbnailSrc) {
+        Glide.with(view).load(thumbnailSrc).placeholder(R.drawable.thumbnail_placeholder_foreground).into(view);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,14 +50,17 @@ public class MainActivity extends AppCompatActivity {
                 R.layout.activity_main);
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         binding.setVm(viewModel);
-        mTopListAdapter = new AnimeListAdapter();
+        binding.rvTop.setLayoutManager(new GridLayoutManager(this, 2));
+        mTopListAdapter = new AnimeListAdapter(viewModel);
         binding.setAdapter(mTopListAdapter);
         viewModel.getTopAnime().observe(this, this::onTopAnimeChanged);
         viewModel.updateTopAnime(1);
     }
 
     private void onTopAnimeChanged(List<Anime> anime) {
-        mTopListAdapter.submitList(anime);
+        if (anime != null && !anime.isEmpty()) {
+            mTopListAdapter.submitList(anime);
+        }
     }
 
     @Override

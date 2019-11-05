@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,21 +10,38 @@
             type="com.android.example.animecompanion.data.models.Anime" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="@dimen/anime_cardview_width"
+        android:layout_height="@dimen/anime_cardview_height"
+        android:layout_marginBottom="@dimen/margin_8dp"
+        app:cardBackgroundColor="@color/primary_dark">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="144dp"
-            android:layout_height="180dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@{model.title}"
+            android:scaleType="fitXY"
+            app:image="@{model.image_url}" />
 
-            <ImageView
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom"
+            android:background="@color/primary_dark">
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/margin_8dp"
+                android:layout_marginEnd="@dimen/margin_8dp"
 
-                />
-        </com.google.android.material.card.MaterialCardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:gravity="center"
+                android:text="@{model.title}"
+                android:textColor="@color/white_text"
+                card_view:text="@tools:sample/lorem" />
+        </FrameLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
 </layout>
