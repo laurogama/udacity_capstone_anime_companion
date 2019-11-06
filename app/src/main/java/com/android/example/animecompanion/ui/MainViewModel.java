@@ -1,6 +1,7 @@
 package com.android.example.animecompanion.ui;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -34,6 +35,15 @@ public class MainViewModel extends AndroidViewModel {
 
     LiveData<List<Anime>> getSearchResults() {
         return mRepository.getSearchResults();
+    }
+
+    public void onClick(Anime anime) {
+        Log.d("MainViewModel", "Clicked");
+        mRepository.setSelectedAnime(anime);
+    }
+
+    public LiveData<Anime> getSelectedAnime() {
+        return mRepository.getSelectedAnime();
     }
 
 }

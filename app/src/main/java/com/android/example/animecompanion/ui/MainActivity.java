@@ -1,10 +1,13 @@
 package com.android.example.animecompanion.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.databinding.BindingAdapter;
@@ -16,11 +19,16 @@ import com.android.example.animecompanion.R;
 import com.android.example.animecompanion.data.models.Anime;
 import com.android.example.animecompanion.databinding.ActivityMainBinding;
 import com.android.example.animecompanion.ui.adapters.AnimeListAdapter;
+import com.android.example.animecompanion.ui.detail.DetailActivity;
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        BottomNavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG = MainActivity.class.getSimpleName();
+    ActivityMainBinding mainBinding;
     private MainViewModel viewModel;
     private final SearchView.OnQueryTextListener mOnQueryTextListener =
             new SearchView.OnQueryTextListener() {
@@ -46,15 +54,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityMainBinding binding = DataBindingUtil.setContentView(this,
+
+        mainBinding = DataBindingUtil.setContentView(this,
                 R.layout.activity_main);
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        binding.setVm(viewModel);
-        binding.rvTop.setLayoutManager(new GridLayoutManager(this, 2));
+        mainBinding.setVm(viewModel);
+        mainBinding.rvTop.setLayoutManager(new GridLayoutManager(this, 2));
         mTopListAdapter = new AnimeListAdapter(viewModel);
-        binding.setAdapter(mTopListAdapter);
+        mainBinding.setAdapter(mTopListAdapter);
         viewModel.getTopAnime().observe(this, this::onTopAnimeChanged);
+        viewModel.getSelectedAnime().observe(this, this::onSelectedAnimeChanged);
         viewModel.updateTopAnime(1);
+        mainBinding.bottomNavigation.setOnNavigationItemSelectedListener(this);
+    }
+
+    private void onSelectedAnimeChanged(Anime anime) {
+        Intent intent = new Intent();
+        intent.setClass(this, DetailActivity.class);
+        startActivity(intent);
     }
 
     private void onTopAnimeChanged(List<Anime> anime) {
@@ -89,5 +106,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.tab_top:
+                Log.d(TAG, "Go to Top");
+                mainBinding.viewPager.setCurrentItem(0);
+                break;
+            case R.id.tab_genres:
+                Log.d(TAG, "Go to Genres");
+                mainBinding.viewPager.setCurrentItem(3);
+                break;
+            case R.id.tab_my_list:
+                Log.d(TAG, "Go to My List");
+                mainBinding.viewPager.setCurrentItem(2);
+                break;
+        }
+        return false;
     }
 }

@@ -26,7 +26,7 @@ public class AnimeListAdapter extends ListAdapter<Anime, AnimeListAdapter.AnimeV
     public AnimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         AnimeListItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.anime_list_item, parent, false);
-        return new AnimeViewHolder(binding);
+        return new AnimeViewHolder(binding, viewModel);
     }
 
     @Override
@@ -38,9 +38,10 @@ public class AnimeListAdapter extends ListAdapter<Anime, AnimeListAdapter.AnimeV
 
         AnimeListItemBinding binding;
 
-        public AnimeViewHolder(@NonNull AnimeListItemBinding binding) {
+        public AnimeViewHolder(@NonNull AnimeListItemBinding binding, MainViewModel viewModel) {
             super(binding.getRoot());
             this.binding = binding;
+            this.binding.setViewModel(viewModel);
         }
 
         public void bind(Anime anime) {

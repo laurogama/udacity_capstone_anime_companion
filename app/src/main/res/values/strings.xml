@@ -5,4 +5,7 @@
     <string name="top">Top</string>
     <string name="genres">Genres</string>
     <string name="my_list">My List</string>
+    <string name="title_activity_detail">detailActivity</string>
+    <string name="anime_thumbnail">anime thumbnail</string>
+    <string name="favorite">favorite</string>
 </resources>

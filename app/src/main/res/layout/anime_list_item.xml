@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="viewModel"
+            type="com.android.example.animecompanion.ui.MainViewModel" />
+
+        <variable
             name="model"
             type="com.android.example.animecompanion.data.models.Anime" />
     </data>
@@ -14,6 +18,8 @@
         android:layout_width="@dimen/anime_cardview_width"
         android:layout_height="@dimen/anime_cardview_height"
         android:layout_marginBottom="@dimen/margin_8dp"
+        android:clickable="true"
+        android:onClick="@{()->viewModel.onClick(model)}"
         app:cardBackgroundColor="@color/primary_dark">
 
         <ImageView

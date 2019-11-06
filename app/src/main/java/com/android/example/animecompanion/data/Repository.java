@@ -27,6 +27,7 @@ public class Repository implements IRepository {
     private final AnimeDao mAnimeDao;
     private MutableLiveData<List<Anime>> searchResults;
     private MutableLiveData<List<Anime>> mTopAnime = new MutableLiveData<>();
+    private MutableLiveData<Anime> mSelectedAnime = new MutableLiveData<>();
     private Jikan jikan;
 
     private Repository(Application application) {
@@ -99,6 +100,16 @@ public class Repository implements IRepository {
 
     public void setSearchResults(List<Anime> searchResults) {
         this.searchResults.postValue(searchResults);
+    }
+
+    @Override
+    public LiveData<Anime> getSelectedAnime() {
+        return mSelectedAnime;
+    }
+
+    @Override
+    public void setSelectedAnime(Anime anime) {
+        mSelectedAnime.postValue(anime);
     }
 
     private static class updateAsyncTask extends AsyncTask<List<Anime>, Void, Void> {

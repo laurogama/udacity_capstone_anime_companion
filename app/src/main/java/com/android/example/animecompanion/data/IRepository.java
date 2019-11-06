@@ -1,6 +1,7 @@
 package com.android.example.animecompanion.data;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.android.example.animecompanion.data.models.Anime;
 
@@ -20,6 +21,10 @@ public interface IRepository {
     void searchAnime(String query);
 
     LiveData<List<Anime>> getSearchResults();
+
+    LiveData<Anime> getSelectedAnime();
+
+    void setSelectedAnime(Anime anime);
 
 
 }
