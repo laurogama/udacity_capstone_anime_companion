@@ -24,6 +24,14 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+    flavorDimensions 'free'
+    productFlavors {
+        free {
+            dimension = 'free'
+            resValue('string', 'APP_ID', Admob_apiKey) //found on .gradle/gradle.properties
+            resValue('string', 'AD_UNIT_ID', jokesapp_banner_ad_unit_id)
+        }
+    }
 }
 
 dependencies {
@@ -40,6 +48,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+
+    implementation 'com.google.android.gms:play-services-ads:18.3.0'
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"

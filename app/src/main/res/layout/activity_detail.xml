@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:theme="@style/AppTheme"
+        android:background="@color/primary_light"
+        tools:context="com.android.example.animecompanion.ui.detail.DetailActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:menu="@menu/detail_menu"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:title="@{model.title}" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:context="com.android.example.animecompanion.ui.detail.DetailActivity"
+            tools:showIn="@layout/activity_detail">
+
+            <ImageView
+                android:id="@+id/iv_detail"
+                android:layout_width="@dimen/anime_cardview_width"
+                android:layout_height="@dimen/anime_cardview_height"
+                android:contentDescription="@string/anime_thumbnail"
+                app:image="@{model.image_url}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom|center_horizontal"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/AD_UNIT_ID"
+            ads:layout_anchorGravity="bottom" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.android.example.animecompanion.ui.detail.DetailViewModel" />
+
+        <variable
+            name="model"
+            type="com.android.example.animecompanion.data.models.Anime" />
+    </data>
+</layout>
