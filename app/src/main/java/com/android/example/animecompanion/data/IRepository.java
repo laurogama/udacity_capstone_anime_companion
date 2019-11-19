@@ -1,7 +1,6 @@
 package com.android.example.animecompanion.data;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.android.example.animecompanion.data.models.Anime;
 
@@ -12,7 +11,7 @@ public interface IRepository {
 
     void updateTopAnime(Integer page);
 
-    LiveData<Anime> getAnime(Integer id);
+    void getAnime(Integer id);
 
     LiveData<List<Anime>> getFavorites();
 

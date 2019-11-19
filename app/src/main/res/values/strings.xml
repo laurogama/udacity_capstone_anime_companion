@@ -8,4 +8,5 @@
     <string name="title_activity_detail">detailActivity</string>
     <string name="anime_thumbnail">anime thumbnail</string>
     <string name="favorite">favorite</string>
+    <string name="hot_icon">hot_icon</string>
 </resources>

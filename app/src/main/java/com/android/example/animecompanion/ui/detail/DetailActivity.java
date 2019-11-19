@@ -23,6 +23,7 @@ public class DetailActivity extends AppCompatActivity {
         detailViewModel = ViewModelProviders.of(this).get(DetailViewModel.class);
         binding.setViewModel(detailViewModel);
         detailViewModel.getSelectedAnime().observe(this, anime -> binding.setModel(anime));
+
         MobileAds.initialize(this, initializationStatus -> {
         });
         AdRequest adRequest = new AdRequest.Builder()

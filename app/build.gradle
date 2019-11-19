@@ -49,6 +49,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
 
+    'com.google.guava:guava:28.0-android'
     implementation 'com.google.android.gms:play-services-ads:18.3.0'
 
     implementation "androidx.room:room-runtime:$room_version"

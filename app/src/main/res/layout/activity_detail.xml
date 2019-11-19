@@ -7,8 +7,8 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:theme="@style/AppTheme"
         android:background="@color/primary_light"
+        android:theme="@style/AppTheme"
         tools:context="com.android.example.animecompanion.ui.detail.DetailActivity">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -27,22 +27,68 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:context="com.android.example.animecompanion.ui.detail.DetailActivity"
-            tools:showIn="@layout/activity_detail">
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/iv_detail"
-                android:layout_width="@dimen/anime_cardview_width"
-                android:layout_height="@dimen/anime_cardview_height"
-                android:contentDescription="@string/anime_thumbnail"
-                app:image="@{model.image_url}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/margin_8dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:context="com.android.example.animecompanion.ui.detail.DetailActivity"
+                tools:showIn="@layout/activity_detail">
+
+                <ImageView
+                    android:id="@+id/iv_detail"
+                    android:layout_width="@dimen/anime_cardview_width"
+                    android:layout_height="@dimen/anime_cardview_height"
+                    android:contentDescription="@string/anime_thumbnail"
+                    app:image="@{model.image_url}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_japanese_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{model.title_japanese}"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_detail"
+                    tools:text="@tools:sample/lorem" />
+
+
+                <TextView
+                    android:id="@+id/tv_rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/hot_circle_img"
+                    android:text="@{String.valueOf(model.rank)}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:gravity="center"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_japanese_title"
+                    tools:text="@tools:sample/date/day_of_week" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/primary_dark"
+                    android:padding="@dimen/divider_padding"
+                    ads:layout_constraintTop_toBottomOf="@id/tv_rank" />
+
+                <TextView
+                    android:id="@+id/tv_synopsis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary_text"
+                    android:text="@{model.synopsis}"
+                    ads:layout_constraintTop_toBottomOf="@id/divider"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView"

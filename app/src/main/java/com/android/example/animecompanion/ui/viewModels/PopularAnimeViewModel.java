@@ -1,4 +1,4 @@
-package com.android.example.animecompanion.ui;
+package com.android.example.animecompanion.ui.viewModels;
 
 import android.app.Application;
 
@@ -11,28 +11,28 @@ import com.android.example.animecompanion.data.models.Anime;
 
 import java.util.List;
 
-public class MainViewModel extends AndroidViewModel {
+public class PopularAnimeViewModel extends AndroidViewModel {
     private Repository mRepository;
 
-    public MainViewModel(@NonNull Application application) {
+    public PopularAnimeViewModel(@NonNull Application application) {
         super(application);
         mRepository = Repository.getInstance(application);
     }
 
-    LiveData<List<Anime>> getTopAnime() {
+    public LiveData<List<Anime>> getTopAnime() {
         return mRepository.getTopAnime();
     }
 
-    void updateTopAnime(Integer page) {
+    public void updateTopAnime(Integer page) {
         mRepository.updateTopAnime(page);
     }
 
-    boolean searchAnime(String query) {
-        mRepository.searchAnime(query);
-        return false;
+    public void onClick(Anime anime) {
+        mRepository.setSelectedAnime(anime);
+        mRepository.getAnime(anime.getId());
     }
 
-    LiveData<List<Anime>> getSearchResults() {
-        return mRepository.getSearchResults();
+    public LiveData<Anime> getSelectedAnime() {
+        return mRepository.getSelectedAnime();
     }
 }

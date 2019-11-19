@@ -13,6 +13,7 @@ import com.android.example.animecompanion.data.db.AnimeDao;
 import com.android.example.animecompanion.data.db.AnimeDatabase;
 import com.android.example.animecompanion.data.models.Anime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -74,8 +75,24 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public LiveData<Anime> getAnime(Integer id) {
-        return null;
+    public void getAnime(Integer id) {
+        jikan.requestAnime(id, new Callback<Anime>() {
+            @Override
+            public void onResponse(Call<Anime> call, Response<Anime> response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, response.message());
+                    List<Anime> animeList = new ArrayList<>();
+                    animeList.add(response.body());
+                    new updateAsyncTask(mAnimeDao).execute(animeList);
+                    mSelectedAnime.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Anime> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     @Override

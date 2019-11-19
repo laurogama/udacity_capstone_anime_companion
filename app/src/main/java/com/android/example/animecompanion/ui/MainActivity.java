@@ -1,6 +1,5 @@
 package com.android.example.animecompanion.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,17 +12,15 @@ import androidx.appcompat.widget.SearchView;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.android.example.animecompanion.R;
-import com.android.example.animecompanion.data.models.Anime;
 import com.android.example.animecompanion.databinding.ActivityMainBinding;
-import com.android.example.animecompanion.ui.adapters.AnimeListAdapter;
-import com.android.example.animecompanion.ui.detail.DetailActivity;
+import com.android.example.animecompanion.ui.adapters.BottomBarAdapter;
+import com.android.example.animecompanion.ui.fragments.PopularAnimeFragment;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.List;
+import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 
 public class MainActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener {
@@ -42,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements
                     return false;
                 }
             };
-    private AnimeListAdapter mTopListAdapter;
+
     private SearchView searchView;
 
     @BindingAdapter("image")
@@ -59,26 +56,15 @@ public class MainActivity extends AppCompatActivity implements
                 R.layout.activity_main);
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mainBinding.setVm(viewModel);
-        mainBinding.rvTop.setLayoutManager(new GridLayoutManager(this, 2));
-        mTopListAdapter = new AnimeListAdapter(viewModel);
-        mainBinding.setAdapter(mTopListAdapter);
-        viewModel.getTopAnime().observe(this, this::onTopAnimeChanged);
-        viewModel.getSelectedAnime().observe(this, this::onSelectedAnimeChanged);
-        viewModel.updateTopAnime(1);
+        BottomBarAdapter mPagerAdapter = new BottomBarAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        mPagerAdapter.addFragments(new PopularAnimeFragment());
+        mainBinding.viewPager.setAdapter(mPagerAdapter);
+        //optimisation
+        mainBinding.viewPager.setOffscreenPageLimit(3);
+//        mainBinding.viewPager.setPagingEnabled(false);
         mainBinding.bottomNavigation.setOnNavigationItemSelectedListener(this);
     }
 
-    private void onSelectedAnimeChanged(Anime anime) {
-        Intent intent = new Intent();
-        intent.setClass(this, DetailActivity.class);
-        startActivity(intent);
-    }
-
-    private void onTopAnimeChanged(List<Anime> anime) {
-        if (anime != null && !anime.isEmpty()) {
-            mTopListAdapter.submitList(anime);
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
