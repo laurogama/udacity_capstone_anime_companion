@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProviders;
 import com.android.example.animecompanion.R;
 import com.android.example.animecompanion.databinding.ActivityMainBinding;
 import com.android.example.animecompanion.ui.adapters.BottomBarAdapter;
+import com.android.example.animecompanion.ui.fragments.GenresFragment;
+import com.android.example.animecompanion.ui.fragments.MyListFragment;
 import com.android.example.animecompanion.ui.fragments.PopularAnimeFragment;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -51,13 +53,14 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         mainBinding = DataBindingUtil.setContentView(this,
                 R.layout.activity_main);
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mainBinding.setVm(viewModel);
         BottomBarAdapter mPagerAdapter = new BottomBarAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mPagerAdapter.addFragments(new PopularAnimeFragment());
+        mPagerAdapter.addFragments(new GenresFragment());
+        mPagerAdapter.addFragments(new MyListFragment());
         mainBinding.viewPager.setAdapter(mPagerAdapter);
         //optimisation
         mainBinding.viewPager.setOffscreenPageLimit(3);
@@ -84,13 +87,10 @@ public class MainActivity extends AppCompatActivity implements
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_search) {
-
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -100,14 +100,17 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.tab_top:
                 Log.d(TAG, "Go to Top");
                 mainBinding.viewPager.setCurrentItem(0);
+                mainBinding.toolbar.setTitle(R.string.app_name);
                 break;
             case R.id.tab_genres:
                 Log.d(TAG, "Go to Genres");
-                mainBinding.viewPager.setCurrentItem(3);
+                mainBinding.viewPager.setCurrentItem(1);
+                mainBinding.toolbar.setTitle(R.string.genres);
                 break;
             case R.id.tab_my_list:
                 Log.d(TAG, "Go to My List");
                 mainBinding.viewPager.setCurrentItem(2);
+                mainBinding.toolbar.setTitle(R.string.my_list);
                 break;
         }
         return false;
