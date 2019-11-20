@@ -19,7 +19,7 @@
         android:layout_height="@dimen/anime_cardview_height"
         android:layout_marginBottom="@dimen/margin_8dp"
         android:clickable="true"
-        android:onClick="@{()->viewModel.onClick(model)}"
+        android:onClick="@{(view)->viewModel.onClick(view, model)}"
         app:cardBackgroundColor="@color/primary_dark">
 
         <ImageView

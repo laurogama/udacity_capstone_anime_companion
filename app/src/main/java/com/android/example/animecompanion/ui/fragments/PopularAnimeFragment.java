@@ -1,6 +1,5 @@
 package com.android.example.animecompanion.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.android.example.animecompanion.data.models.Anime;
 import com.android.example.animecompanion.databinding.FragmentPopularBinding;
 import com.android.example.animecompanion.ui.adapters.AnimeListAdapter;
-import com.android.example.animecompanion.ui.detail.DetailActivity;
 import com.android.example.animecompanion.ui.viewModels.PopularAnimeViewModel;
 
 import java.util.List;
@@ -34,15 +32,8 @@ public class PopularAnimeFragment extends Fragment {
         mTopListAdapter = new AnimeListAdapter(viewModel);
         mBinding.setAdapter(mTopListAdapter);
         viewModel.getTopAnime().observe(this, this::onTopAnimeChanged);
-        viewModel.getSelectedAnime().observe(this, this::onSelectedAnimeChanged);
         viewModel.updateTopAnime(1);
         return mBinding.getRoot();
-    }
-
-    private void onSelectedAnimeChanged(Anime anime) {
-        Intent intent = new Intent();
-        intent.setClass(this.getContext(), DetailActivity.class);
-        startActivity(intent);
     }
 
     private void onTopAnimeChanged(List<Anime> anime) {

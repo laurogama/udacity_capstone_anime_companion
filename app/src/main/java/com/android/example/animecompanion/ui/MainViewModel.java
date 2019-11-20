@@ -19,14 +19,6 @@ public class MainViewModel extends AndroidViewModel {
         mRepository = Repository.getInstance(application);
     }
 
-    LiveData<List<Anime>> getTopAnime() {
-        return mRepository.getTopAnime();
-    }
-
-    void updateTopAnime(Integer page) {
-        mRepository.updateTopAnime(page);
-    }
-
     boolean searchAnime(String query) {
         mRepository.searchAnime(query);
         return false;

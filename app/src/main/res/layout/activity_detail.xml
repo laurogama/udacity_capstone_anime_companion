@@ -43,6 +43,7 @@
                     android:id="@+id/iv_detail"
                     android:layout_width="@dimen/anime_cardview_width"
                     android:layout_height="@dimen/anime_cardview_height"
+                    android:layout_marginTop="?actionBarSize"
                     android:contentDescription="@string/anime_thumbnail"
                     app:image="@{model.image_url}"
                     app:layout_constraintStart_toStartOf="parent"

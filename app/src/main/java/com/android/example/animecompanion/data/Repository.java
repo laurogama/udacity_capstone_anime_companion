@@ -76,6 +76,9 @@ public class Repository implements IRepository {
 
     @Override
     public void getAnime(Integer id) {
+        if (id == -1) {
+            return;
+        }
         jikan.requestAnime(id, new Callback<Anime>() {
             @Override
             public void onResponse(Call<Anime> call, Response<Anime> response) {

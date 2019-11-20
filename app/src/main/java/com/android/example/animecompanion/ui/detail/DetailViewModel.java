@@ -20,4 +20,8 @@ public class DetailViewModel extends AndroidViewModel {
     LiveData<Anime> getSelectedAnime() {
         return mRepository.getSelectedAnime();
     }
+
+    public void requestAnime(Integer animeId) {
+        mRepository.getAnime(animeId);
+    }
 }
