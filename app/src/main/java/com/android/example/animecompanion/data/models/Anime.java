@@ -13,12 +13,12 @@ public class Anime {
     public static DiffUtil.ItemCallback<Anime> diffCallback = new DiffUtil.ItemCallback<Anime>() {
         @Override
         public boolean areItemsTheSame(@NonNull Anime oldItem, @NonNull Anime newItem) {
-            return false;
+            return oldItem.equals(newItem);
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull Anime oldItem, @NonNull Anime newItem) {
-            return false;
+            return oldItem.getId().equals(newItem.getId());
         }
     };
     private String status;
@@ -42,6 +42,16 @@ public class Anime {
     private String type;
     private String source;
     private Integer episodes;
+    private boolean favorite;
+    private boolean full;
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
 
     public Integer getId() {
         return id;
@@ -193,5 +203,17 @@ public class Anime {
 
     public void setBackground(String background) {
         this.background = background;
+    }
+
+    public void toogleFavorite() {
+        this.favorite = !this.favorite;
+    }
+
+    public boolean isFull() {
+        return full;
+    }
+
+    public void setFull(boolean full) {
+        this.full = full;
     }
 }

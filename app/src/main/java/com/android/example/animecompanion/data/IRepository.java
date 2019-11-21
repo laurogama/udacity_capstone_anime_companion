@@ -7,7 +7,12 @@ import com.android.example.animecompanion.data.models.Anime;
 import java.util.List;
 
 public interface IRepository {
-    LiveData<List<Anime>> getTopAnime();
+    /**
+     * Retrieves a LiveData of a List of anime in order of rank
+     *
+     * @return
+     */
+    LiveData<List<Anime>> getTopAnime(Integer page);
 
     void updateTopAnime(Integer page);
 
@@ -25,5 +30,12 @@ public interface IRepository {
 
     void setSelectedAnime(Anime anime);
 
+    /**
+     * updates a anime
+     *
+     * @param model {@link Anime}
+     */
+    void updateAnime(Anime model);
 
+    LiveData<List<Anime>> getMyAnimeList();
 }

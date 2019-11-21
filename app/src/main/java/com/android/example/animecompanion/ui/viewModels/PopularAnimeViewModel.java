@@ -16,6 +16,7 @@ import java.util.List;
 
 public class PopularAnimeViewModel extends AndroidViewModel {
     private Repository mRepository;
+    private Integer currentPage = 1;
 
     public PopularAnimeViewModel(@NonNull Application application) {
         super(application);
@@ -27,15 +28,10 @@ public class PopularAnimeViewModel extends AndroidViewModel {
         intent.setClass(view.getContext(), DetailActivity.class);
         intent.putExtra(DetailActivity.ANIME_ID, anime.getId());
         view.getContext().startActivity(intent);
-//        mRepository.setSelectedAnime(anime);
     }
 
     public LiveData<List<Anime>> getTopAnime() {
-        return mRepository.getTopAnime();
-    }
-
-    public void updateTopAnime(Integer page) {
-        mRepository.updateTopAnime(page);
+        return mRepository.getTopAnime(currentPage);
     }
 
     public LiveData<Anime> getSelectedAnime() {

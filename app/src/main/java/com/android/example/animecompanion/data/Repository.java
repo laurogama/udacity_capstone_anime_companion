@@ -1,19 +1,19 @@
 package com.android.example.animecompanion.data;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.android.example.animecompanion.data.api.Jikan;
 import com.android.example.animecompanion.data.api.JikanResponse;
 import com.android.example.animecompanion.data.db.AnimeDao;
 import com.android.example.animecompanion.data.db.AnimeDatabase;
+import com.android.example.animecompanion.data.db.AppExecutors;
 import com.android.example.animecompanion.data.models.Anime;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -27,7 +27,7 @@ public class Repository implements IRepository {
     private static Repository sInstance;
     private final AnimeDao mAnimeDao;
     private MutableLiveData<List<Anime>> searchResults;
-    private MutableLiveData<List<Anime>> mTopAnime = new MutableLiveData<>();
+    private MediatorLiveData<List<Anime>> mTopAnime = new MediatorLiveData<>();
     private MutableLiveData<Anime> mSelectedAnime = new MutableLiveData<>();
     private Jikan jikan;
 
@@ -35,6 +35,7 @@ public class Repository implements IRepository {
         AnimeDatabase db = AnimeDatabase.getDatabase(application.getApplicationContext());
         mAnimeDao = db.animeDao();
         jikan = new Jikan();
+        mTopAnime.addSource(mAnimeDao.getTop(), this::onTopAnimeChanged);
     }
 
     public static Repository getInstance(Application application) {
@@ -46,8 +47,14 @@ public class Repository implements IRepository {
         return sInstance;
     }
 
+    private void onTopAnimeChanged(List<Anime> animes) {
+        mTopAnime.postValue(animes);
+    }
+
     @Override
-    public LiveData<List<Anime>> getTopAnime() {
+    public LiveData<List<Anime>> getTopAnime(Integer page) {
+        Log.d(TAG, "getting top anime from Room");
+        updateTopAnime(page);
         return mTopAnime;
     }
 
@@ -58,8 +65,10 @@ public class Repository implements IRepository {
             public void onResponse(Call<JikanResponse> call, Response<JikanResponse> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, response.message());
-                    new updateAsyncTask(mAnimeDao).execute(response.body().getTop());
-                    mTopAnime.postValue(response.body().getTop());
+                    AppExecutors.getInstance().diskIO().execute(() -> {
+                        mAnimeDao.updateAll(response.body().getTop());
+                        mTopAnime.postValue(response.body().getTop());
+                    });
                 }
             }
 
@@ -70,24 +79,37 @@ public class Repository implements IRepository {
         });
     }
 
-    private void onAnimeListChanged(List<Anime> animeList) {
-
-    }
-
     @Override
     public void getAnime(Integer id) {
         if (id == -1) {
             return;
         }
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            Anime anime = mAnimeDao.findById(id);
+            if (anime == null || !anime.isFull()) {
+                requestAnime(id);
+            } else {
+                setSelectedAnime(anime);
+            }
+
+        });
+
+    }
+
+    private void requestAnime(Integer id) {
         jikan.requestAnime(id, new Callback<Anime>() {
             @Override
             public void onResponse(Call<Anime> call, Response<Anime> response) {
                 if (response.isSuccessful()) {
-                    Log.d(TAG, response.message());
-                    List<Anime> animeList = new ArrayList<>();
-                    animeList.add(response.body());
-                    new updateAsyncTask(mAnimeDao).execute(animeList);
-                    mSelectedAnime.postValue(response.body());
+                    Anime anime = response.body();
+                    if (anime != null) {
+                        anime.setFull(true);
+                        Log.d(TAG, response.message());
+                        AppExecutors.getInstance().diskIO().execute(() -> {
+                            mAnimeDao.updateAnime(anime);
+                            mSelectedAnime.postValue(anime);
+                        });
+                    }
                 }
             }
 
@@ -96,6 +118,7 @@ public class Repository implements IRepository {
                 t.printStackTrace();
             }
         });
+
     }
 
     @Override
@@ -132,18 +155,18 @@ public class Repository implements IRepository {
         mSelectedAnime.postValue(anime);
     }
 
-    private static class updateAsyncTask extends AsyncTask<List<Anime>, Void, Void> {
-
-        private final AnimeDao mAsyncTaskDao;
-
-        updateAsyncTask(AnimeDao dao) {
-            mAsyncTaskDao = dao;
+    @Override
+    public void updateAnime(Anime anime) {
+        ((Runnable) () -> {
+            mAnimeDao.updateAnime(anime);
+            mSelectedAnime.postValue(anime);
         }
+        ).run();
 
-        @Override
-        protected Void doInBackground(final List<Anime>... params) {
-            mAsyncTaskDao.updateAll(params[0]);
-            return null;
-        }
+    }
+
+    @Override
+    public LiveData<List<Anime>> getMyAnimeList() {
+        return mAnimeDao.getMyAnimeList();
     }
 }

@@ -1,6 +1,7 @@
 package com.android.example.animecompanion.ui.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,10 @@ import com.android.example.animecompanion.ui.viewModels.PopularAnimeViewModel;
 import java.util.List;
 
 public class PopularAnimeFragment extends Fragment {
+    private static final String TAG = PopularAnimeFragment.class.getSimpleName();
     private AnimeListAdapter mTopListAdapter;
     private PopularAnimeViewModel viewModel;
+
 
     @Nullable
     @Override
@@ -28,16 +31,16 @@ public class PopularAnimeFragment extends Fragment {
         FragmentPopularBinding mBinding = FragmentPopularBinding.inflate(inflater, container,
                 false);
         mBinding.rvTop.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
-        viewModel = ViewModelProviders.of(this).get(PopularAnimeViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(PopularAnimeViewModel.class);
         mTopListAdapter = new AnimeListAdapter(viewModel);
         mBinding.setAdapter(mTopListAdapter);
         viewModel.getTopAnime().observe(this, this::onTopAnimeChanged);
-        viewModel.updateTopAnime(1);
         return mBinding.getRoot();
     }
 
     private void onTopAnimeChanged(List<Anime> anime) {
         if (anime != null && !anime.isEmpty()) {
+            Log.d(TAG, "animeList updated");
             mTopListAdapter.submitList(anime);
         }
     }

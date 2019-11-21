@@ -10,19 +10,30 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.android.example.animecompanion.data.models.Anime;
 import com.android.example.animecompanion.databinding.FragmentMyListBinding;
+import com.android.example.animecompanion.ui.adapters.MyListAdapter;
 import com.android.example.animecompanion.ui.viewModels.MyListViewModel;
 
-public class MyListFragment extends Fragment {
-    private FragmentMyListBinding myBinding;
-    private MyListViewModel mViewModel;
+import java.util.List;
 
+public class MyListFragment extends Fragment {
+    private FragmentMyListBinding mBinding;
+    private MyListViewModel mViewModel;
+    private MyListAdapter mAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        myBinding = FragmentMyListBinding.inflate(inflater, container, false);
+        mBinding = FragmentMyListBinding.inflate(inflater, container, false);
         mViewModel = ViewModelProviders.of(this.getActivity()).get(MyListViewModel.class);
-        return myBinding.getRoot();
+        mAdapter = new MyListAdapter(mViewModel);
+        mBinding.setAdapter(mAdapter);
+        mViewModel.getMyAnimeList().observe(getActivity(), this::onMyListChanged);
+        return mBinding.getRoot();
+    }
+
+    private void onMyListChanged(List<Anime> animeList) {
+        mAdapter.submitList(animeList);
     }
 }

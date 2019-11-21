@@ -23,9 +23,11 @@
             app:layout_constraintTop_toTopOf="parent"
             bind:adapter="@{adapter}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <data>
+
         <variable
             name="adapter"
-            type="com.android.example.animecompanion.ui.adapters.AnimeListAdapter" />
+            type="com.android.example.animecompanion.ui.adapters.MyListAdapter" />
     </data>
 </layout>

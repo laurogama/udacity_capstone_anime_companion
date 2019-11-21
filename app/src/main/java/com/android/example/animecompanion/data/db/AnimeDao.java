@@ -14,8 +14,9 @@ import java.util.List;
 
 @Dao
 public interface AnimeDao {
+
     @Query("SELECT * from anime ORDER BY rank")
-    public LiveData<List<Anime>> getTop();
+    LiveData<List<Anime>> getTop();
 
     @Delete
     void delete(Anime anime);
@@ -23,7 +24,7 @@ public interface AnimeDao {
     @Query("SELECT * from anime WHERE id=:id LIMIT 1")
     Anime findById(Integer id);
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Anime anime);
 
     @Query("SELECT * from anime WHERE title like :title")
@@ -31,4 +32,10 @@ public interface AnimeDao {
 
     @Update
     void updateAll(List<Anime> animeList);
+
+    @Update
+    void updateAnime(Anime anime);
+
+    @Query("SELECT * from anime WHERE favorite=1")
+    LiveData<List<Anime>> getMyAnimeList();
 }
