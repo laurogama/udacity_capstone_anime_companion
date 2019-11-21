@@ -16,13 +16,13 @@ import java.util.List;
 public interface AnimeDao {
 
     @Query("SELECT * from anime ORDER BY rank")
-    LiveData<List<Anime>> getTop();
+    public LiveData<List<Anime>> getTop();
 
     @Delete
     void delete(Anime anime);
 
-    @Query("SELECT * from anime WHERE id=:id LIMIT 1")
-    Anime findById(Integer id);
+    @Query("SELECT * from anime WHERE id=:id")
+    public Anime findById(Integer id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Anime anime);

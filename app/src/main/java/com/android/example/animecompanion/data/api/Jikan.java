@@ -1,5 +1,7 @@
 package com.android.example.animecompanion.data.api;
 
+import android.util.Log;
+
 import com.android.example.animecompanion.data.models.Anime;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,13 +33,13 @@ public class Jikan {
 
     public void requestTopAnime(Integer page, Callback<JikanResponse> callback) {
         Call<JikanResponse> call = load().requestTopAnime(page);
-        System.out.println(call.request().url());
+        Log.d(TAG, call.request().url().toString());
         call.enqueue(callback);
     }
 
     public void requestAnime(Integer id, Callback<Anime> callback) {
         Call<Anime> call = load().requestAnime(id);
-        System.out.println(call.request().url());
+        Log.d(TAG, call.request().url().toString());
         call.enqueue(callback);
     }
 }
