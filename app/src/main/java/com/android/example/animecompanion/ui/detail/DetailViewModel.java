@@ -27,6 +27,6 @@ public class DetailViewModel extends AndroidViewModel {
 
     public void updateFavorite(Anime model) {
         model.toogleFavorite();
-        mRepository.updateAnime(model);
+        mRepository.updateFavorite(model.getId(), model.isFavorite());
     }
 }

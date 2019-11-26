@@ -4,9 +4,7 @@
 
     <data>
 
-        <variable
-            name="viewModel"
-            type="com.android.example.animecompanion.ui.viewModels.MyListViewModel" />
+        <import type="com.android.example.animecompanion.ui.ClickUtil" />
 
         <variable
             name="model"
@@ -15,7 +13,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{(view)->ClickUtil.onAnimeClicked(view, model)}">
 
         <ImageView
             android:id="@+id/iv_thumbnail"

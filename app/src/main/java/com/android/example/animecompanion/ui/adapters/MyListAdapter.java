@@ -11,15 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.example.animecompanion.R;
 import com.android.example.animecompanion.data.models.Anime;
 import com.android.example.animecompanion.databinding.MylistItemBinding;
-import com.android.example.animecompanion.ui.viewModels.MyListViewModel;
 
 public class MyListAdapter extends ListAdapter<Anime, MyListAdapter.MyListViewHolder> {
 
-    private final MyListViewModel viewModel;
-
-    public MyListAdapter(MyListViewModel viewModel) {
+    public MyListAdapter() {
         super(Anime.diffCallback);
-        this.viewModel = viewModel;
     }
 
     @NonNull
@@ -27,7 +23,7 @@ public class MyListAdapter extends ListAdapter<Anime, MyListAdapter.MyListViewHo
     public MyListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         MylistItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.mylist_item, parent, false);
-        return new MyListViewHolder(binding, this.viewModel);
+        return new MyListViewHolder(binding);
     }
 
     @Override
@@ -38,10 +34,9 @@ public class MyListAdapter extends ListAdapter<Anime, MyListAdapter.MyListViewHo
     class MyListViewHolder extends RecyclerView.ViewHolder {
         private final MylistItemBinding binding;
 
-        MyListViewHolder(@NonNull MylistItemBinding binding, MyListViewModel viewModel) {
+        MyListViewHolder(@NonNull MylistItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            this.binding.setViewModel(viewModel);
 
         }
 

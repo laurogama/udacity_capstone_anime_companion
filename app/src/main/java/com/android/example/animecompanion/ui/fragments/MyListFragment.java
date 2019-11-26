@@ -1,6 +1,7 @@
 package com.android.example.animecompanion.ui.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.android.example.animecompanion.ui.viewModels.MyListViewModel;
 import java.util.List;
 
 public class MyListFragment extends Fragment {
+    private static final String TAG = MyListFragment.class.getSimpleName();
     private FragmentMyListBinding mBinding;
     private MyListViewModel mViewModel;
     private MyListAdapter mAdapter;
@@ -27,13 +29,16 @@ public class MyListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentMyListBinding.inflate(inflater, container, false);
         mViewModel = ViewModelProviders.of(this.getActivity()).get(MyListViewModel.class);
-        mAdapter = new MyListAdapter(mViewModel);
+        mAdapter = new MyListAdapter();
         mBinding.setAdapter(mAdapter);
         mViewModel.getMyAnimeList().observe(getActivity(), this::onMyListChanged);
         return mBinding.getRoot();
     }
 
     private void onMyListChanged(List<Anime> animeList) {
-        mAdapter.submitList(animeList);
+        if (animeList != null) {
+            Log.d(TAG, animeList.toString());
+            mAdapter.submitList(animeList);
+        }
     }
 }

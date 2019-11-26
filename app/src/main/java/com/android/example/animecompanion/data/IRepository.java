@@ -18,7 +18,7 @@ public interface IRepository {
 
     void getAnime(Integer id);
 
-    LiveData<List<Anime>> getFavorites();
+    void updateFavorite(long id, boolean isFavorite);
 
     void insertAnime(Anime anime);
 
@@ -38,4 +38,5 @@ public interface IRepository {
     void updateAnime(Anime model);
 
     LiveData<List<Anime>> getMyAnimeList();
+
 }

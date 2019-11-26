@@ -30,6 +30,9 @@ public interface AnimeDao {
     @Query("SELECT * from anime WHERE title like :title")
     List<Anime> findByTitle(String title);
 
+    @Query("UPDATE anime SET favorite = :favorite WHERE id = :tid")
+    int updateFavorite(long tid, boolean favorite);
+
     @Update
     void updateAll(List<Anime> animeList);
 

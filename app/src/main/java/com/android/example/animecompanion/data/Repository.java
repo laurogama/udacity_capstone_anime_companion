@@ -29,6 +29,7 @@ public class Repository implements IRepository {
     private MutableLiveData<List<Anime>> searchResults = new MutableLiveData<>();
     private MutableLiveData<List<Anime>> mTopAnime = new MutableLiveData<>();
     private MutableLiveData<Anime> mSelectedAnime = new MutableLiveData<>();
+    private LiveData<List<Anime>> mMyFavorites;
     private Jikan jikan;
 
     private Repository(Application application) {
@@ -116,8 +117,9 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public LiveData<List<Anime>> getFavorites() {
-        return null;
+    public void updateFavorite(long id, boolean isFavorite) {
+        AppExecutors.getInstance().diskIO().execute(
+                () -> mAnimeDao.updateFavorite(id, isFavorite));
     }
 
     @Override
@@ -176,7 +178,8 @@ public class Repository implements IRepository {
 
     @Override
     public LiveData<List<Anime>> getMyAnimeList() {
-        return mAnimeDao.getMyAnimeList();
+        mMyFavorites = mAnimeDao.getMyAnimeList();
+        return mMyFavorites;
     }
 
     private interface AsyncCallback {

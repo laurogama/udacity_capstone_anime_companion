@@ -1,7 +1,6 @@
 package com.android.example.animecompanion.ui.detail;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -42,6 +41,15 @@ public class DetailActivity extends AppCompatActivity {
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
         mBinding.adView.loadAd(adRequest);
+
+        Menu menu = mBinding.toolbar.getMenu();
+        MenuItem favorite = menu.findItem(R.id.action_favorite);
+        favorite.setOnMenuItemClickListener(item -> {
+            detailViewModel.updateFavorite(mBinding.getModel());
+            item.setIcon(mBinding.getModel().isFavorite() ? R.drawable.ic_favorite_24dp :
+                    R.drawable.ic_favorite_border_24dp);
+            return true;
+        });
     }
 
     private void onAnimeChanged(Anime anime) {
@@ -56,22 +64,5 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.detail_menu, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        Log.d(TAG, item.getTitle().toString());
-        if (id == R.id.action_favorite) {
-            detailViewModel.updateFavorite(mBinding.getModel());
-            item.setIcon(mBinding.getModel().isFavorite() ? R.drawable.ic_favorite_24dp :
-                    R.drawable.ic_favorite_border_24dp);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
