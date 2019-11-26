@@ -11,14 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.example.animecompanion.R;
 import com.android.example.animecompanion.data.models.Anime;
 import com.android.example.animecompanion.databinding.AnimeListItemBinding;
-import com.android.example.animecompanion.ui.viewModels.PopularAnimeViewModel;
 
 public class AnimeListAdapter extends ListAdapter<Anime, AnimeListAdapter.AnimeViewHolder> {
-    private PopularAnimeViewModel viewModel;
-
-    public AnimeListAdapter(PopularAnimeViewModel viewModel) {
+    public AnimeListAdapter() {
         super(Anime.diffCallback);
-        this.viewModel = viewModel;
     }
 
     @NonNull
@@ -26,7 +22,7 @@ public class AnimeListAdapter extends ListAdapter<Anime, AnimeListAdapter.AnimeV
     public AnimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         AnimeListItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.anime_list_item, parent, false);
-        return new AnimeViewHolder(binding, viewModel);
+        return new AnimeViewHolder(binding);
     }
 
     @Override
@@ -38,10 +34,9 @@ public class AnimeListAdapter extends ListAdapter<Anime, AnimeListAdapter.AnimeV
 
         AnimeListItemBinding binding;
 
-        public AnimeViewHolder(@NonNull AnimeListItemBinding binding, PopularAnimeViewModel viewModel) {
+        public AnimeViewHolder(@NonNull AnimeListItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            this.binding.setViewModel(viewModel);
         }
 
         public void bind(Anime anime) {

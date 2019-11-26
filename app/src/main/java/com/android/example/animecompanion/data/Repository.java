@@ -26,7 +26,7 @@ public class Repository implements IRepository {
     private final static String TAG = Repository.class.getSimpleName();
     private static Repository sInstance;
     private final AnimeDao mAnimeDao;
-    private MutableLiveData<List<Anime>> searchResults;
+    private MutableLiveData<List<Anime>> searchResults = new MutableLiveData<>();
     private MutableLiveData<List<Anime>> mTopAnime = new MutableLiveData<>();
     private MutableLiveData<Anime> mSelectedAnime = new MutableLiveData<>();
     private Jikan jikan;
@@ -127,7 +127,7 @@ public class Repository implements IRepository {
 
     @Override
     public void searchAnime(String query, Integer page) {
-        setSearchResults(mAnimeDao.findByTitle(query));
+        AppExecutors.getInstance().diskIO().execute(() -> setSearchResults(mAnimeDao.findByTitle(query)));
         jikan.searchAnime(query, page, new Callback<JikanResponse>() {
             @Override
             public void onResponse(Call<JikanResponse> call, Response<JikanResponse> response) {

@@ -9,4 +9,6 @@
     <string name="anime_thumbnail">anime thumbnail</string>
     <string name="favorite">favorite</string>
     <string name="hot_icon">hot_icon</string>
+    <string name="search_animes">Search Animes</string>
+    <string name="search_activity">Search Activity</string>
 </resources>

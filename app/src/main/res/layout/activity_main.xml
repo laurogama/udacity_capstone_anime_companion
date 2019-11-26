@@ -20,18 +20,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
+                app:menu="@menu/search_menu"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:title="@string/app_name" />
 
         </com.google.android.material.appbar.AppBarLayout>
+
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_above="@+id/bottom_navigation"
-            />
+            android:layout_alignParentTop="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
@@ -44,6 +45,7 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <data>
+
         <variable
             name="vm"
             type="com.android.example.animecompanion.ui.MainViewModel" />

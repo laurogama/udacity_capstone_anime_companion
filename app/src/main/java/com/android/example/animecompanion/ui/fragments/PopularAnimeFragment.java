@@ -32,7 +32,7 @@ public class PopularAnimeFragment extends Fragment {
                 false);
         mBinding.rvTop.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
         viewModel = ViewModelProviders.of(getActivity()).get(PopularAnimeViewModel.class);
-        mTopListAdapter = new AnimeListAdapter(viewModel);
+        mTopListAdapter = new AnimeListAdapter();
         mBinding.setAdapter(mTopListAdapter);
         viewModel.getTopAnime().observe(this, this::onTopAnimeChanged);
         return mBinding.getRoot();
