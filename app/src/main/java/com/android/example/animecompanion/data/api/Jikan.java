@@ -42,4 +42,10 @@ public class Jikan {
         Log.d(TAG, call.request().url().toString());
         call.enqueue(callback);
     }
+
+    public void searchAnime(String query, Integer page, Callback<JikanResponse> callback) {
+        Call<JikanResponse> call = load().searchAnime(query, page);
+        Log.d(TAG, call.request().url().toString());
+        call.enqueue(callback);
+    }
 }

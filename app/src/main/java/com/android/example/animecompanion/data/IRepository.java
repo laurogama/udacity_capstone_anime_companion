@@ -22,7 +22,7 @@ public interface IRepository {
 
     void insertAnime(Anime anime);
 
-    void searchAnime(String query);
+    void searchAnime(String query, Integer page);
 
     LiveData<List<Anime>> getSearchResults();
 

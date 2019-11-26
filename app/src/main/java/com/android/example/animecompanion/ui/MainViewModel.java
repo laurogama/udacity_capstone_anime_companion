@@ -20,7 +20,7 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     boolean searchAnime(String query) {
-        mRepository.searchAnime(query);
+        mRepository.searchAnime(query, 1);
         return false;
     }
 

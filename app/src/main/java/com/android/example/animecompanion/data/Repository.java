@@ -126,8 +126,24 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public void searchAnime(String query) {
+    public void searchAnime(String query, Integer page) {
         setSearchResults(mAnimeDao.findByTitle(query));
+        jikan.searchAnime(query, page, new Callback<JikanResponse>() {
+            @Override
+            public void onResponse(Call<JikanResponse> call, Response<JikanResponse> response) {
+                if (response.isSuccessful()) {
+                    setSearchResults(response.body().getResults());
+                    AppExecutors.getInstance().diskIO().execute(
+                            () -> mAnimeDao.updateAll(response.body().getResults()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JikanResponse> call, Throwable t) {
+
+            }
+        });
+
     }
 
     @Override
@@ -152,12 +168,10 @@ public class Repository implements IRepository {
 
     @Override
     public void updateAnime(Anime anime) {
-        ((Runnable) () -> {
+        AppExecutors.getInstance().diskIO().execute(() -> {
             mAnimeDao.updateAnime(anime);
             mSelectedAnime.postValue(anime);
-        }
-        ).run();
-
+        });
     }
 
     @Override
