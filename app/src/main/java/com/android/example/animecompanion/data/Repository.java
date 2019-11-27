@@ -52,7 +52,6 @@ public class Repository implements IRepository {
 
     @Override
     public LiveData<List<Anime>> getTopAnime(Integer page) {
-        Log.d(TAG, "getting top anime from Room");
         updateTopAnime(page);
         return mTopAnime;
     }
@@ -64,9 +63,7 @@ public class Repository implements IRepository {
             public void onResponse(Call<JikanResponse> call, Response<JikanResponse> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, response.message());
-                    AppExecutors.getInstance().diskIO().execute(() -> {
-                        mAnimeDao.insertAll(response.body().getTop());
-                    });
+                    AppExecutors.getInstance().diskIO().execute(() -> mAnimeDao.insertAll(response.body().getTop()));
                 }
             }
 
@@ -130,14 +127,15 @@ public class Repository implements IRepository {
 
     @Override
     public void searchAnime(String query, Integer page) {
-        AppExecutors.getInstance().diskIO().execute(() -> setSearchResults(mAnimeDao.findByTitle(query)));
         jikan.searchAnime(query, page, new Callback<JikanResponse>() {
             @Override
             public void onResponse(Call<JikanResponse> call, Response<JikanResponse> response) {
                 if (response.isSuccessful()) {
-                    setSearchResults(response.body().getResults());
                     AppExecutors.getInstance().diskIO().execute(
-                            () -> mAnimeDao.updateAll(response.body().getResults()));
+                            () -> {
+                                setSearchResults(response.body().getResults());
+                                mAnimeDao.insertAll(response.body().getResults());
+                            });
                 }
             }
 

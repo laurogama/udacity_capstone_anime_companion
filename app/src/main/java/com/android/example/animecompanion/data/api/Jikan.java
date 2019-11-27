@@ -15,6 +15,7 @@ import static com.android.example.animecompanion.data.api.IJikan.API_BASE_URL;
 
 public class Jikan {
     final static String TAG = Jikan.class.getSimpleName();
+    private static final String RATED = "r17";
     private Retrofit retrofit;
 
     public Jikan() {
@@ -44,7 +45,7 @@ public class Jikan {
     }
 
     public void searchAnime(String query, Integer page, Callback<JikanResponse> callback) {
-        Call<JikanResponse> call = load().searchAnime(query, page);
+        Call<JikanResponse> call = load().searchAnime(query, page, RATED);
         Log.d(TAG, call.request().url().toString());
         call.enqueue(callback);
     }

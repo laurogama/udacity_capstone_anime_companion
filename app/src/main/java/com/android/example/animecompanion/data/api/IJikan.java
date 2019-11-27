@@ -10,12 +10,13 @@ import retrofit2.http.Query;
 public interface IJikan {
     String API_BASE_URL = "https://api.jikan.moe/v3/";
 
-    @GET(API_BASE_URL + "top/anime/{page}")
+    @GET(API_BASE_URL + "top/anime/{page}/bypopularity")
     Call<JikanResponse> requestTopAnime(@Path("page") Integer page);
 
     @GET(API_BASE_URL + "anime/{id}")
     Call<Anime> requestAnime(@Path("id") Integer id);
 
     @GET(API_BASE_URL + "search/anime/")
-    Call<JikanResponse> searchAnime(@Query("q") String query, @Query("page") Integer page);
+    Call<JikanResponse> searchAnime(@Query("q") String query, @Query("page") Integer page,
+                                    @Query("rated") String rated);
 }

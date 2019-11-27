@@ -15,7 +15,8 @@ import java.util.List;
 @Dao
 public interface AnimeDao {
 
-    @Query("SELECT * from anime ORDER BY rank")
+    //Rank equals 0 are NSFW titles so we filter those
+    @Query("SELECT * from anime WHERE rank > 0 ORDER BY rank")
     public LiveData<List<Anime>> getTop();
 
     @Delete

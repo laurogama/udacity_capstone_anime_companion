@@ -33,7 +33,9 @@ public class SearchResultsActivity extends AppCompatActivity {
         mBinding.setAdapter(mAdapter);
         mViewModel.getSearchResults().observe(this, this::onSearchResultsChanged);
         if (getIntent().hasExtra(QUERY)) {
-            mViewModel.searchAnime(getIntent().getStringExtra(QUERY));
+            String query = getIntent().getStringExtra(QUERY);
+            mViewModel.searchAnime(query);
+            mBinding.toolbar.setTitle(query);
         }
     }
 
