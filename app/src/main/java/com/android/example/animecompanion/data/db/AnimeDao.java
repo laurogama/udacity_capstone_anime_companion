@@ -41,4 +41,7 @@ public interface AnimeDao {
 
     @Query("SELECT * from anime WHERE favorite=1")
     LiveData<List<Anime>> getMyAnimeList();
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertAll(List<Anime> top);
 }

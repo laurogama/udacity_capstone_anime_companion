@@ -27,7 +27,7 @@ public class Repository implements IRepository {
     private static Repository sInstance;
     private final AnimeDao mAnimeDao;
     private MutableLiveData<List<Anime>> searchResults = new MutableLiveData<>();
-    private MutableLiveData<List<Anime>> mTopAnime = new MutableLiveData<>();
+    private LiveData<List<Anime>> mTopAnime;
     private MutableLiveData<Anime> mSelectedAnime = new MutableLiveData<>();
     private LiveData<List<Anime>> mMyFavorites;
     private Jikan jikan;
@@ -36,6 +36,8 @@ public class Repository implements IRepository {
         AnimeDatabase db = AnimeDatabase.getDatabase(application.getApplicationContext());
         mAnimeDao = db.animeDao();
         jikan = new Jikan();
+        mTopAnime = mAnimeDao.getTop();
+        mMyFavorites = mAnimeDao.getMyAnimeList();
 
     }
 
@@ -63,8 +65,7 @@ public class Repository implements IRepository {
                 if (response.isSuccessful()) {
                     Log.d(TAG, response.message());
                     AppExecutors.getInstance().diskIO().execute(() -> {
-                        mAnimeDao.updateAll(response.body().getTop());
-                        mTopAnime.postValue(response.body().getTop());
+                        mAnimeDao.insertAll(response.body().getTop());
                     });
                 }
             }
@@ -100,9 +101,9 @@ public class Repository implements IRepository {
                     Anime anime = response.body();
                     if (anime != null) {
                         anime.setFull(true);
-                        Log.d(TAG, response.message());
+                        Log.d(TAG, "inserting Anime: " + response.message());
                         AppExecutors.getInstance().diskIO().execute(() -> {
-                            mAnimeDao.insert(anime);
+                            mAnimeDao.updateAnime(anime);
                             mSelectedAnime.postValue(anime);
                         });
                     }
@@ -178,7 +179,6 @@ public class Repository implements IRepository {
 
     @Override
     public LiveData<List<Anime>> getMyAnimeList() {
-        mMyFavorites = mAnimeDao.getMyAnimeList();
         return mMyFavorites;
     }
 
