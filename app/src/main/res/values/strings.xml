@@ -11,4 +11,5 @@
     <string name="hot_icon">hot_icon</string>
     <string name="search_animes">Search Animes</string>
     <string name="search_activity">Search Results</string>
+    <string name="background">Background</string>
 </resources>

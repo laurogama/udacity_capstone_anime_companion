@@ -22,6 +22,7 @@ import com.android.example.animecompanion.ui.fragments.MyListFragment;
 import com.android.example.animecompanion.ui.fragments.PopularAnimeFragment;
 import com.android.example.animecompanion.ui.search.SearchResultsActivity;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
@@ -50,7 +51,14 @@ public class MainActivity extends AppCompatActivity implements
 
     @BindingAdapter("image")
     public static void setThumbnail(ImageView view, String thumbnailSrc) {
-        Glide.with(view).load(thumbnailSrc).placeholder(R.drawable.thumbnail_placeholder_foreground).into(view);
+        Glide.with(view).load(thumbnailSrc).placeholder(R.drawable.thumbnail_placeholder_foreground)
+                .into(view);
+    }
+
+    @BindingAdapter("roundThumbnail")
+    public static void setRoundThumbnail(ImageView view, String thumbnailSrc) {
+        Glide.with(view).load(thumbnailSrc).placeholder(R.drawable.thumbnail_placeholder_foreground)
+                .apply(RequestOptions.circleCropTransform()).into(view);
     }
 
     @Override

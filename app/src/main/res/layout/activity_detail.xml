@@ -35,6 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="@dimen/margin_8dp"
+                android:layout_marginBottom="50dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:context="com.android.example.animecompanion.ui.detail.DetailActivity"
                 tools:showIn="@layout/activity_detail">
@@ -65,9 +66,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/hot_circle_img"
+                    android:gravity="center"
                     android:text="@{String.valueOf(model.rank)}"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:gravity="center"
                     app:layout_constraintTop_toBottomOf="@+id/tv_japanese_title"
                     tools:text="@tools:sample/date/day_of_week" />
 
@@ -83,23 +84,43 @@
                     android:id="@+id/tv_synopsis"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text"
                     android:text="@{model.synopsis}"
+                    android:textColor="@color/primary_text"
                     ads:layout_constraintTop_toBottomOf="@id/divider"
                     app:layout_constraintStart_toStartOf="parent" />
 
+                <TextView
+                    android:id="@+id/tv_background_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/background"
+                    android:textColor="@color/primary_text"
+                    ads:layout_constraintStart_toStartOf="parent"
+                    ads:layout_constraintTop_toBottomOf="@id/tv_synopsis" />
+
+                <TextView
+                    android:id="@+id/tv_background"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{model.background}"
+                    android:textColor="@color/primary_text"
+                    ads:layout_constraintStart_toStartOf="parent"
+                    ads:layout_constraintTop_toBottomOf="@id/tv_background_title" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.core.widget.NestedScrollView>
 
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom|center_horizontal"
             ads:adSize="BANNER"
-            ads:adUnitId="@string/AD_UNIT_ID"
-            ads:layout_anchorGravity="bottom" />
+            ads:adUnitId="@string/AD_UNIT_ID" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <data>
