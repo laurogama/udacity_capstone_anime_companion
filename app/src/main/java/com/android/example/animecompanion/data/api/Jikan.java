@@ -49,4 +49,10 @@ public class Jikan {
         Log.d(TAG, call.request().url().toString());
         call.enqueue(callback);
     }
+
+    public void requestGenre(Integer genre, Integer page, Callback<GenreResponse> callback) {
+        Call<GenreResponse> call = load().requestGenre(genre, page);
+        Log.d(TAG, call.request().url().toString());
+        call.enqueue(callback);
+    }
 }

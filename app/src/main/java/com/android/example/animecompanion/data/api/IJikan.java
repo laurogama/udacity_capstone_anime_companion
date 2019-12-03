@@ -19,4 +19,8 @@ public interface IJikan {
     @GET(API_BASE_URL + "search/anime/")
     Call<JikanResponse> searchAnime(@Query("q") String query, @Query("page") Integer page,
                                     @Query("rated") String rated);
+
+    @GET(API_BASE_URL + "genre/anime/{genre}/{page}")
+    Call<GenreResponse> requestGenre(@Path("genre") Integer genre, @Path("page") Integer page);
+
 }

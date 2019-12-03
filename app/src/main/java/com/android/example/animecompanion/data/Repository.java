@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.android.example.animecompanion.data.api.GenreResponse;
 import com.android.example.animecompanion.data.api.Jikan;
 import com.android.example.animecompanion.data.api.JikanResponse;
 import com.android.example.animecompanion.data.db.AnimeDao;
@@ -31,6 +32,7 @@ public class Repository implements IRepository {
     private MutableLiveData<Anime> mSelectedAnime = new MutableLiveData<>();
     private LiveData<List<Anime>> mMyFavorites;
     private Jikan jikan;
+    private MutableLiveData<List<Anime>> mAnimeGenreList = new MutableLiveData<>();
 
     private Repository(Application application) {
         AnimeDatabase db = AnimeDatabase.getDatabase(application.getApplicationContext());
@@ -178,6 +180,31 @@ public class Repository implements IRepository {
     @Override
     public LiveData<List<Anime>> getMyAnimeList() {
         return mMyFavorites;
+    }
+
+    @Override
+    public void selectGenre(Integer genreId) {
+        jikan.requestGenre(genreId, 1, new Callback<GenreResponse>() {
+            @Override
+            public void onResponse(Call<GenreResponse> call, Response<GenreResponse> response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, response.body().getAnime().toString());
+                    Log.d(TAG, String.valueOf(response.body().getAnime().size()));
+
+                    mAnimeGenreList.postValue(response.body().getAnime());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GenreResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public LiveData<List<Anime>> getAnimeByGenre() {
+        return mAnimeGenreList;
     }
 
     private interface AsyncCallback {

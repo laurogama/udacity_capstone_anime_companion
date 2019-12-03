@@ -15,6 +15,16 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.SpinnerItem" parent="android:Widget.TextView.SpinnerItem">
+        <item name="android:textColorPrimaryDisableOnly">@color/primary_text</item>
+
+    </style>
+
+    <style name="AppTheme.spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+        <item name="android:textColorPrimaryDisableOnly">@color/primary_text</item>
+        <item name="android:background">@color/primary_dark</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

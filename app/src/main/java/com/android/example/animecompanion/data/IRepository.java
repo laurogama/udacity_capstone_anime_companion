@@ -39,4 +39,7 @@ public interface IRepository {
 
     LiveData<List<Anime>> getMyAnimeList();
 
+    void selectGenre(Integer genreId);
+
+    LiveData<List<Anime>> getAnimeByGenre();
 }
