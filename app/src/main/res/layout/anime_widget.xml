@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    android:padding="@dimen/margin_8dp">
+
+    <TextView
+        android:id="@+id/AnimeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/primary_dark"
+        android:padding="@dimen/widget_padding"
+        android:text="@string/my_list"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/widget_title"
+        android:textStyle="bold" />
+
+    <ListView
+        android:id="@+id/rv_widget_anime"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/AnimeTitle" />
+</RelativeLayout>

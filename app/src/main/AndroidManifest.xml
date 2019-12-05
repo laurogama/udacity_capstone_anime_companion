@@ -57,6 +57,19 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".service.AnimeWidgetRemoteViewsService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <receiver android:name=".ui.widget.AnimeWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/anime_widget_info" />
+        </receiver>
     </application>
 
 </manifest>
