@@ -13,7 +13,6 @@ import java.util.List;
 
 public class PopularAnimeViewModel extends AndroidViewModel {
     private Repository mRepository;
-    private Integer currentPage = 1;
 
     public PopularAnimeViewModel(@NonNull Application application) {
         super(application);
@@ -21,6 +20,7 @@ public class PopularAnimeViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Anime>> getTopAnime() {
+        Integer currentPage = 1;
         return mRepository.getTopAnime(currentPage);
     }
 

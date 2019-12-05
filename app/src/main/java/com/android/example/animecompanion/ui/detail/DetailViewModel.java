@@ -21,11 +21,11 @@ public class DetailViewModel extends AndroidViewModel {
         return mRepository.getSelectedAnime();
     }
 
-    public void requestAnime(Integer animeId) {
+    void requestAnime(Integer animeId) {
         mRepository.getAnime(animeId);
     }
 
-    public void updateFavorite(Anime model) {
+    void updateFavorite(Anime model) {
         model.toogleFavorite();
         mRepository.updateFavorite(model.getId(), model.isFavorite());
     }

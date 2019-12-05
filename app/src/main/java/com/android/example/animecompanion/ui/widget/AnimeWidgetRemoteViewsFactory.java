@@ -2,6 +2,7 @@ package com.android.example.animecompanion.ui.widget;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Binder;
 import android.widget.AdapterView;
 import android.widget.RemoteViews;
@@ -12,9 +13,11 @@ import com.android.example.animecompanion.data.Repository;
 import com.android.example.animecompanion.data.models.Anime;
 
 import java.util.ArrayList;
-import java.util.Objects;
+
+import static com.android.example.animecompanion.ui.detail.DetailActivity.ANIME_ID;
 
 public class AnimeWidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+    public static final String MY_ON_CLICK_TAG = "MyOnClickTag";
     private Context mContext;
     private ArrayList<Anime> mAnimeList = new ArrayList<>();
 
@@ -30,9 +33,9 @@ public class AnimeWidgetRemoteViewsFactory implements RemoteViewsService.RemoteV
     @Override
     public void onDataSetChanged() {
         final long identityToken = Binder.clearCallingIdentity();
-        mAnimeList = (ArrayList<Anime>) Objects.requireNonNull(
+        mAnimeList = (ArrayList<Anime>)
                 Repository.getInstance((Application) mContext.getApplicationContext())
-                        .getMyAnimeList().getValue());
+                        .getMyAnimeList().getValue();
         Binder.restoreCallingIdentity(identityToken);
 
     }
@@ -58,6 +61,9 @@ public class AnimeWidgetRemoteViewsFactory implements RemoteViewsService.RemoteV
             RemoteViews rv = new RemoteViews(mContext.getPackageName(),
                     R.layout.widget_anime_list_item);
             rv.setTextViewText(R.id.tv_widget_item, anime.getTitle());
+            Intent fillInIntent = new Intent();
+            fillInIntent.putExtra(ANIME_ID, anime.getId());
+            rv.setOnClickFillInIntent(R.id.widget_item_container, fillInIntent);
             return rv;
         } catch (IndexOutOfBoundsException ex) {
             ex.printStackTrace();

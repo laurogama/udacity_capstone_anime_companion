@@ -32,14 +32,14 @@ public class AnimeListAdapter extends ListAdapter<Anime, AnimeListAdapter.AnimeV
 
     class AnimeViewHolder extends RecyclerView.ViewHolder {
 
-        AnimeListItemBinding binding;
+        final AnimeListItemBinding binding;
 
-        public AnimeViewHolder(@NonNull AnimeListItemBinding binding) {
+        AnimeViewHolder(@NonNull AnimeListItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
-        public void bind(Anime anime) {
+        void bind(Anime anime) {
             this.binding.setModel(anime);
         }
     }

@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
  * http://fabcoding.com/fragments-with-bottom-navigation-retaining-fragment-state/
  */
 public abstract class SmartFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
-    private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
+    private SparseArray<Fragment> registeredFragments = new SparseArray<>();
 
     public SmartFragmentStatePagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);

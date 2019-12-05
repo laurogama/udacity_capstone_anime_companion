@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements
                     return false;
                 }
             };
-    private MainViewModel viewModel;
 
     @BindingAdapter("image")
     public static void setThumbnail(ImageView view, String thumbnailSrc) {
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements
         mainBinding = DataBindingUtil.setContentView(this,
                 R.layout.activity_main);
 
-        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mainBinding.setVm(viewModel);
         BottomBarAdapter mPagerAdapter = new BottomBarAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mPagerAdapter.addFragments(new PopularAnimeFragment());

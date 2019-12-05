@@ -22,7 +22,6 @@ import java.util.List;
 public class PopularAnimeFragment extends Fragment {
     private static final String TAG = PopularAnimeFragment.class.getSimpleName();
     private AnimeListAdapter mTopListAdapter;
-    private PopularAnimeViewModel viewModel;
 
 
     @Nullable
@@ -31,7 +30,7 @@ public class PopularAnimeFragment extends Fragment {
         FragmentPopularBinding mBinding = FragmentPopularBinding.inflate(inflater, container,
                 false);
         mBinding.rvTop.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
-        viewModel = ViewModelProviders.of(getActivity()).get(PopularAnimeViewModel.class);
+        PopularAnimeViewModel viewModel = ViewModelProviders.of(getActivity()).get(PopularAnimeViewModel.class);
         mTopListAdapter = new AnimeListAdapter();
         mBinding.setAdapter(mTopListAdapter);
         viewModel.getTopAnime().observe(this, this::onTopAnimeChanged);

@@ -73,7 +73,6 @@ public class GenresFragment extends Fragment {
             new SimpleEntry<>("Seinen", 42),
             new SimpleEntry<>("Josei", 43))
             .collect(Collectors.toMap(SimpleEntry::getKey, SimpleEntry::getValue));
-    private FragmentGenresBinding mBinding;
     private GenresViewModel mViewModel;
     private final AdapterView.OnItemSelectedListener mSpinnerItemClicked = new AdapterView.OnItemSelectedListener() {
         @Override
@@ -99,7 +98,7 @@ public class GenresFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = FragmentGenresBinding.inflate(inflater, container, false);
+        FragmentGenresBinding mBinding = FragmentGenresBinding.inflate(inflater, container, false);
         mAdapter = new AnimeListAdapter();
         mBinding.setAdapter(mAdapter);
         mViewModel = ViewModelProviders.of(this.getActivity()).get(GenresViewModel.class);

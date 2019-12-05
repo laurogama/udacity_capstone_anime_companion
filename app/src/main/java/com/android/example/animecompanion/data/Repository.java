@@ -123,11 +123,6 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public void insertAnime(Anime anime) {
-
-    }
-
-    @Override
     public void searchAnime(String query, Integer page) {
         jikan.searchAnime(query, page, new Callback<JikanResponse>() {
             @Override
@@ -167,14 +162,6 @@ public class Repository implements IRepository {
     public void setSelectedAnime(Anime anime) {
         Log.d(TAG, "Updating selected anime to: " + anime.getId());
         mSelectedAnime.postValue(anime);
-    }
-
-    @Override
-    public void updateAnime(Anime anime) {
-        AppExecutors.getInstance().diskIO().execute(() -> {
-            mAnimeDao.updateAnime(anime);
-            mSelectedAnime.postValue(anime);
-        });
     }
 
     @Override

@@ -26,15 +26,13 @@ import java.util.List;
 
 public class MyListFragment extends Fragment {
     private static final String TAG = MyListFragment.class.getSimpleName();
-    private FragmentMyListBinding mBinding;
-    private MyListViewModel mViewModel;
     private MyListAdapter mAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = FragmentMyListBinding.inflate(inflater, container, false);
-        mViewModel = ViewModelProviders.of(this.getActivity()).get(MyListViewModel.class);
+        FragmentMyListBinding mBinding = FragmentMyListBinding.inflate(inflater, container, false);
+        MyListViewModel mViewModel = ViewModelProviders.of(this.getActivity()).get(MyListViewModel.class);
         mAdapter = new MyListAdapter();
         mBinding.setAdapter(mAdapter);
         mViewModel.getMyAnimeList().observe(getActivity(), this::onMyListChanged);

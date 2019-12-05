@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName = "anime")
 public class Anime {
 
-    public static DiffUtil.ItemCallback<Anime> diffCallback = new DiffUtil.ItemCallback<Anime>() {
+    public static final DiffUtil.ItemCallback<Anime> diffCallback = new DiffUtil.ItemCallback<Anime>() {
         @Override
         public boolean areItemsTheSame(@NonNull Anime oldItem, @NonNull Anime newItem) {
             return oldItem.equals(newItem);

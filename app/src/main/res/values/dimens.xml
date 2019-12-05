@@ -1,5 +1,4 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
     <dimen name="margin_8dp">8dp</dimen>
     <dimen name="anime_cardview_width">180dp</dimen>
     <dimen name="anime_cardview_height">230dp</dimen>

@@ -20,8 +20,6 @@ public interface IRepository {
 
     void updateFavorite(long id, boolean isFavorite);
 
-    void insertAnime(Anime anime);
-
     void searchAnime(String query, Integer page);
 
     LiveData<List<Anime>> getSearchResults();
@@ -29,13 +27,6 @@ public interface IRepository {
     LiveData<Anime> getSelectedAnime();
 
     void setSelectedAnime(Anime anime);
-
-    /**
-     * updates a anime
-     *
-     * @param model {@link Anime}
-     */
-    void updateAnime(Anime model);
 
     LiveData<List<Anime>> getMyAnimeList();
 
