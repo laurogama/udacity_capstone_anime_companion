@@ -60,6 +60,8 @@ dependencies {
 
     'com.google.guava:guava:28.0-android'
     implementation 'com.google.android.gms:play-services-ads:18.3.0'
+    implementation 'com.google.firebase:firebase-analytics:17.2.1'
+
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
@@ -70,3 +72,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
 }
+apply plugin: 'com.google.gms.google-services'

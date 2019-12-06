@@ -24,6 +24,7 @@ import com.android.example.animecompanion.ui.search.SearchResultsActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     ActivityMainBinding mainBinding;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     private SearchView searchView;
     private final SearchView.OnQueryTextListener mOnQueryTextListener =
             new SearchView.OnQueryTextListener() {
@@ -63,10 +66,9 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mainBinding = DataBindingUtil.setContentView(this,
                 R.layout.activity_main);
-
         MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mainBinding.setVm(viewModel);
         BottomBarAdapter mPagerAdapter = new BottomBarAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -81,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements
         searchView.setOnQueryTextListener(mOnQueryTextListener);
         mainBinding.bottomNavigation.setOnNavigationItemSelectedListener(this);
     }
-
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -105,7 +106,14 @@ public class MainActivity extends AppCompatActivity implements
         return false;
     }
 
+    private void logAnalyticsSearch(String query) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, query);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
+    }
+
     private void openSearchActivity(String query) {
+        logAnalyticsSearch(query);
         Intent intent = new Intent();
         intent.setClass(this, SearchResultsActivity.class);
         intent.putExtra(SearchResultsActivity.QUERY, query);

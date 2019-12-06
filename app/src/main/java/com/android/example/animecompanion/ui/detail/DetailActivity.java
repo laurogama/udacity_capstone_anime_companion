@@ -13,18 +13,21 @@ import com.android.example.animecompanion.data.models.Anime;
 import com.android.example.animecompanion.databinding.ActivityDetailBinding;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class DetailActivity extends AppCompatActivity {
     public static final String ANIME_ID = "anime_id";
     private static final String TAG = DetailActivity.class.getSimpleName();
     private ActivityDetailBinding mBinding;
     private DetailViewModel detailViewModel;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         detailViewModel = ViewModelProviders.of(this).get(DetailViewModel.class);
         mBinding.setViewModel(detailViewModel);
 
@@ -52,8 +55,17 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
+    private void logAnalyticsEventAnimeClick(Anime anime) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, String.valueOf(anime.getId()));
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, anime.getTitle());
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Anime");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+    }
+
     private void onAnimeChanged(Anime anime) {
         mBinding.setModel(anime);
+        logAnalyticsEventAnimeClick(anime);
         mBinding.toolbar.getMenu().findItem(R.id.action_favorite).setIcon(mBinding.getModel().isFavorite() ?
                 R.drawable.ic_favorite_24dp :
                 R.drawable.ic_favorite_border_24dp);
