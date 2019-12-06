@@ -1,6 +1,13 @@
 apply plugin: 'com.android.application'
-
 android {
+    signingConfigs {
+        release {
+            storeFile file("$rootDir/anime_companion.jks")
+            storePassword ANIME_COMPANION_SIGN_PASSWORD
+            keyAlias = 'key0'
+            keyPassword ANIME_COMPANION_SIGN_PASSWORD
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
@@ -15,6 +22,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     dataBinding {
@@ -28,6 +36,7 @@ android {
     productFlavors {
         free {
             dimension = 'free'
+            signingConfig signingConfigs.release
             resValue('string', 'APP_ID', Admob_apiKey) //found on .gradle/gradle.properties
             resValue('string', 'AD_UNIT_ID', jokesapp_banner_ad_unit_id)
         }
